@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         String[] romanInput = {null, "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
-        String[] arabianInput = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        String[] arabianInput = {null, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         String[] romanTens = {"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
         int numberA = 0;
         int numberB = 0;
@@ -30,24 +30,24 @@ public class Main {
             System.out.println("Ввод не соответствует формату a + b, a - b, a * b, a / b.");
         }
         if (component.length >= 3) {
-            for (int i=0; i<10; i++) {
+            for (int i=0; i<11; i++) {
                 if (component[0].equalsIgnoreCase(romanInput[i])) {
                     numberA = i;
                     romanA = true;
                     arabianA = false;
                 } else if (component[0].equals(arabianInput[i])) {
-                    numberA = ++i;
+                    numberA = i;
                     romanA = false;
                     arabianA = true;
                 }
             }
-            for (int j=0; j<10; j++) {
+            for (int j=0; j<11; j++) {
                 if (component[2].equalsIgnoreCase(romanInput[j])) {
                     numberB = j;
                     romanB = true;
                     arabianB = false;
                 } else if (component[2].equals(arabianInput[j])) {
-                    numberB = ++j;
+                    numberB = j;
                     romanB = false;
                     arabianB = true;
                 }
