@@ -1,0 +1,112 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String[] romanInput = {null, "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+        String[] arabianInput = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        String[] romanTens = {"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+        int numberA = 0;
+        int numberB = 0;
+        int solution = 1;
+        boolean romanA = false;
+        boolean romanB = false;
+        boolean arabianA = false;
+        boolean arabianB = false;
+        boolean mistake = false;
+
+        System.out.println("Возможны вычисления с римскими или арабскими числами от 1 до 10.");
+        System.out.println("Введите данные в формате a + b, a - b, a * b, a / b.");
+
+        Scanner in = new Scanner(System.in);
+        String problem = in.nextLine();
+        in.close();
+
+        String[] component = problem.split(" ");
+
+        if (component.length != 3) {
+            mistake = true;
+            System.out.println("Ввод не соответствует формату a + b, a - b, a * b, a / b.");
+        }
+        if (component.length >= 3) {
+            for (int i=0; i<10; i++) {
+                if (component[0].equalsIgnoreCase(romanInput[i])) {
+                    numberA = i;
+                    romanA = true;
+                    arabianA = false;
+                } else if (component[0].equals(arabianInput[i])) {
+                    numberA = ++i;
+                    romanA = false;
+                    arabianA = true;
+                }
+            }
+            for (int j=0; j<10; j++) {
+                if (component[2].equalsIgnoreCase(romanInput[j])) {
+                    numberB = j;
+                    romanB = true;
+                    arabianB = false;
+                } else if (component[2].equals(arabianInput[j])) {
+                    numberB = ++j;
+                    romanB = false;
+                    arabianB = true;
+                }
+            }
+        }
+
+        if (!mistake) {
+            if (numberA == 0 || numberB == 0) {
+                mistake = true;
+                System.out.println("Некорректно указаны операнды a или b.");
+            }
+        }
+
+        if (!mistake) {
+            if (component[1].equals("+")) {
+                solution = numberA + numberB;
+            } else if (component[1].equals("-")) {
+                solution = numberA - numberB;
+            } else if (component[1].equals("*")) {
+                solution = numberA * numberB;
+            } else if (component[1].equals("/") && numberB != 0) {
+                solution = numberA / numberB;
+            } else {
+                mistake = true;
+                System.out.println("Некорректно указан оператор (+, -, /, *).");
+            }
+        }
+
+        if (romanA && romanB && solution>0 && solution<10 && !mistake) {
+            System.out.println("Ответ: " + romanInput[solution]);
+        } else if (romanA && romanB && solution>=10 && solution<100 && solution%10==0 && !mistake) {
+            int digitOne = solution/10 - 1;
+            System.out.println("Ответ: " + romanTens[digitOne]);
+        } else if (romanA && romanB && solution>=10 && solution<100 && solution%10!=0 && !mistake) {
+            int digitOne = solution/10 - 1;
+            int digitTwo = solution - solution/10*10;
+            System.out.println("Ответ: " + romanTens[digitOne] + romanInput[digitTwo]);
+        } else if (romanA && romanB && solution == 100 && !mistake) {
+            System.out.println("Ответ: C");
+        } else if (romanA && romanB && solution <= 0) {
+            mistake = true;
+            System.out.println("В римской системе нет отрицательных чисел.");
+        } else if (arabianA && arabianB && !mistake) {
+            System.out.println("Ответ: " + solution);
+        } else if (romanA && arabianB) {
+            mistake = true;
+            System.out.println("Используются одновременно разные системы счисления.");
+        } else if (arabianA && romanB) {
+            mistake = true;
+            System.out.println("Используются одновременно разные системы счисления.");
+        }
+
+        if (mistake) {
+            System.out.println("Ошибка ввода данных.");
+        }
+
+        if (!mistake) {
+            System.out.println("Ошибок не обнаружено.");
+        }
+
+    }
+}
